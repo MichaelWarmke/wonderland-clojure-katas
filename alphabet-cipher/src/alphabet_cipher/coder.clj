@@ -34,19 +34,13 @@
 (defn decode [keyword message]
   (trans "d" keyword message))
 
-(defn isRepeatedString [s value]
-  (loop []))
-
-
-(defn findDuplicate [extendedCipher]
-  (let [cipherSize (count extendedCipher)
-        cipherChars (str/split extendedCipher #"")]
-    (loop [spiltSize 1
-           desiredMatches cipherSize]
-      (if (=
-            ((take splitSize (str/split extendedCipher #"")))
-            desiredMatches)))))
-
+(defn findDuplicate [repeatedKeyword]
+    (loop [subsSize 1]
+      (let [matchTerm (subs repeatedKeyword 0 subsSize)
+            matched (re-find (re-pattern (str "(" matchTerm ")+")) repeatedKeyword)]
+        (if (>= (count (first matched)) (/ (count repeatedKeyword) 2))
+          (last matched)
+          (recur (inc subsSize))))))
 
 (defn decipher [cipher message]
   (findDuplicate (decode message cipher)))
